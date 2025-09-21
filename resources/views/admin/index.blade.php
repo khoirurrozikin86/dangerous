@@ -2,43 +2,46 @@
 
 @section('admin')
     <style>
-        /* ===== Theme ===== */
         :root {
             --ink: #F4F7FF;
             --muted: #A9B6CE;
             --navy: #0F1B2D;
-            --navy2: #182B46;
-            --shadow: 0 12px 28px rgba(0, 0, 0, .22);
+            --navy2: #16273F;
+            --line: #E2EAF6;
+            /* garis tabel */
+            --text: #22324A;
+            /* teks utama konten terang */
 
-            /* accents KPI */
-            --item1: #FF416C;
-            --item2: #FF6A88;
-            /* ITEM */
-            --emp1: #4A62F7;
-            --emp2: #6E85FF;
-            /* EMP BORROW */
-            --pinj1: #6C7A8C;
-            --pinj2: #8D9AAF;
-            /* PEMINJAMAN */
-            --out1: #26B0A5;
-            --out2: #68E6D9;
-            /* ITEM OUT */
+            /* KPI */
+            --kpi1a: #4169E1;
+            --kpi1b: #7C9BFF;
+            --kpi2a: #6B46FF;
+            --kpi2b: #9B7BFF;
+            --kpi3a: #5D6C82;
+            --kpi3b: #8FA2B9;
+            --kpi4a: #2EB7B0;
+            --kpi4b: #6FE6D9;
         }
 
-        /* ===== Hero ===== */
+        /* ===== HERO (jam) ===== */
         .hero {
-            border-radius: 18px;
+            border-radius: 20px;
             padding: 22px;
             background: linear-gradient(135deg, var(--navy), var(--navy2));
             color: var(--ink);
-            box-shadow: var(--shadow);
-            margin-bottom: 18px;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+            margin-bottom: 18px
         }
 
         .hero-time {
             font-size: clamp(32px, 6vw, 56px);
             font-weight: 900;
-            line-height: 1
+            line-height: 1;
+            /* gradient pada TEKS (ada putihnya) */
+            background: linear-gradient(90deg, #ffffff 0%, #e9f6ff 40%, #6FE6D9 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
         }
 
         .hero-date {
@@ -46,7 +49,25 @@
             font-weight: 600
         }
 
-        /* ===== Grid ===== */
+        .hero-chips {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px
+        }
+
+        .chip {
+            font-size: .85rem;
+            color: #2b3e5c;
+            border: 1px solid #d6e2f3;
+            background: #ffffffcc;
+            padding: 6px 10px;
+            border-radius: 999px;
+            backdrop-filter: saturate(120%) blur(2px)
+        }
+
+        /* ===== GRID KPI ===== */
         .grid {
             display: grid;
             gap: 16px
@@ -58,24 +79,31 @@
             }
         }
 
-        /* ===== KPI cards (with ring) ===== */
         .stat {
             display: flex;
             align-items: center;
             gap: 14px;
             padding: 16px 18px;
-            border-radius: 16px;
+            border-radius: 18px;
             color: #fff;
             text-decoration: none;
-            box-shadow: var(--shadow);
-            transition: transform .25s ease, box-shadow .25s ease;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, .22);
+            transition: .25s ease;
             position: relative;
-            overflow: hidden;
+            overflow: hidden
         }
 
         .stat:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 36px rgba(0, 0, 0, .28)
+            transform: translateY(-4px)
+        }
+
+        .stat:before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: radial-gradient(120% 100% at 100% 0, rgba(255, 255, 255, .22), transparent 60%);
+            mix-blend-mode: soft-light
         }
 
         .stat .title {
@@ -86,34 +114,27 @@
             opacity: .95
         }
 
-        .stat .value {
-            font-weight: 900;
-            font-size: 38px;
-            line-height: 1
-        }
-
         .stat .desc {
             font-size: .9rem;
-            opacity: .85
+            opacity: .9
         }
 
         .stat--item {
-            background: linear-gradient(135deg, var(--item1), var(--item2))
+            background: linear-gradient(135deg, var(--kpi1a), var(--kpi1b))
         }
 
         .stat--emp {
-            background: linear-gradient(135deg, var(--emp1), var(--emp2))
+            background: linear-gradient(135deg, var(--kpi2a), var(--kpi2b))
         }
 
         .stat--pinj {
-            background: linear-gradient(135deg, var(--pinj1), var(--pinj2))
+            background: linear-gradient(135deg, var(--kpi3a), var(--kpi3b))
         }
 
         .stat--out {
-            background: linear-gradient(135deg, var(--out1), var(--out2))
+            background: linear-gradient(135deg, var(--kpi4a), var(--kpi4b))
         }
 
-        /* ring */
         .ring {
             position: relative;
             width: 108px;
@@ -127,7 +148,7 @@
         }
 
         .ring .bg {
-            stroke: rgba(255, 255, 255, .35)
+            stroke: rgba(255, 255, 255, .28)
         }
 
         .ring .fg {
@@ -147,137 +168,73 @@
             font-size: 24px
         }
 
-        .ring .center small {
-            display: block;
-            font-size: 10px;
-            letter-spacing: .08em;
-            opacity: .9
+        /* ===== TABLE CLEAN (tanpa background) ===== */
+        .section {
+            margin-top: 18px
         }
 
-        /* ===== Table card ===== */
-        .card-soft {
-            background: #0e1726;
-            background: linear-gradient(180deg, #0f1b2d 0%, #132640 100%);
-            border-radius: 16px;
-            padding: 14px;
-            box-shadow: var(--shadow);
-            color: #e7eeff;
-        }
-
-        .card-soft h6 {
-            margin: 6px 8px 12px;
-            opacity: .9
-        }
-
+        /* wrapper transparan */
         .table-wrap {
-            overflow-x: auto;
+            overflow-x: auto
         }
 
-        table.tmodern {
+        table.tclean {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            font-size: .95rem
+            border-collapse: collapse
         }
 
-        .tmodern thead th {
-            position: sticky;
-            top: 0;
-            z-index: 1;
-            color: #fff;
+        .tclean thead th {
             text-align: center;
             font-weight: 800;
-            background: linear-gradient(135deg, #275b8f, #2f80a1);
-            padding: 10px 8px;
+            color: var(--text);
+            padding: 12px 10px;
+            border-bottom: 2px solid var(--line);
+            background: transparent;
+            /* tidak ada bg header */
         }
 
-        .tmodern tbody td {
+        .tclean tbody td {
             text-align: center;
-            padding: 10px 8px;
-            background: rgba(255, 255, 255, .04)
+            padding: 12px 10px;
+            color: #3a4b66;
+            border-bottom: 1px solid var(--line);
+            background: transparent;
+            /* tidak ada bg body */
         }
 
-        .tmodern tbody tr:nth-child(even) td {
-            background: rgba(255, 255, 255, .06)
-        }
-
-        .tmodern tbody tr:hover td {
-            background: rgba(255, 255, 255, .10)
-        }
-
-        /* small helpers */
-        .fadeUp {
-            transform: translateY(12px);
-            opacity: 0;
-            animation: fadeUp .6s ease forwards
-        }
-
-        @keyframes fadeUp {
-            to {
-                transform: translateY(0);
-                opacity: 1
-            }
-        }
-
-        .pulse {
-            animation: pulse .4s ease
-        }
-
-        @keyframes pulse {
-            50% {
-                transform: scale(1.06)
-            }
-        }
-
-        /* skeleton */
-        .skeleton {
-            height: 36px;
-            border-radius: 8px;
-            background: rgba(255, 255, 255, .25);
-            overflow: hidden
-        }
-
-        .skeleton:after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            transform: translateX(-100%);
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .5), transparent);
-            animation: shimmer 1.2s infinite
-        }
-
-        @keyframes shimmer {
-            to {
-                transform: translateX(100%)
-            }
+        .tclean tbody tr:hover td {
+            background: #00000008
         }
     </style>
 
     <div class="page-content">
         <div class="container">
 
-            {{-- HERO: Time & Date --}}
-            <div class="hero fadeUp" style="animation-delay:.02s">
+            {{-- HERO JAM --}}
+            <div class="hero">
                 <div class="text-center">
                     <div id="timenow" class="hero-time">00:00:00</div>
                     <div id="datenow" class="hero-date">–</div>
+                    <div class="hero-chips">
+                        <span id="chip-greet" class="chip">Hi!</span>
+                        <span id="chip-week" class="chip">Week —</span>
+                        <span id="chip-doy" class="chip">Day —/365</span>
+                        <span id="chip-qt" class="chip">Q—</span>
+                        <span id="chip-shift" class="chip">Shift —</span>
+                    </div>
                 </div>
             </div>
 
-            {{-- KPI ROW --}}
+            {{-- KPI ROW (tetap) --}}
             <div class="grid grid-4">
-                {{-- ITEM --}}
-                <div class="stat stat--item fadeUp" style="animation-delay:.08s">
+                <div class="stat stat--item">
                     <div class="ring">
-                        <svg viewBox="0 0 120 120" aria-hidden="true">
+                        <svg viewBox="0 0 120 120">
                             <circle class="bg" cx="60" cy="60" r="54" fill="none" stroke-width="10" />
                             <circle class="fg" cx="60" cy="60" r="54" fill="none" stroke="#fff"
                                 stroke-width="10" stroke-dasharray="339.29" stroke-dashoffset="339.29" />
                         </svg>
-                        <div class="center">
-                            <span id="v-item">0</span>
-                            <small>ITEM</small>
-                        </div>
+                        <div class="center"><span id="v-item">0</span><small>ITEM</small></div>
                     </div>
                     <div>
                         <div class="title">Item</div>
@@ -285,18 +242,14 @@
                     </div>
                 </div>
 
-                {{-- EMP BORROW --}}
-                <div class="stat stat--emp fadeUp" style="animation-delay:.12s">
+                <div class="stat stat--emp">
                     <div class="ring">
-                        <svg viewBox="0 0 120 120" aria-hidden="true">
+                        <svg viewBox="0 0 120 120">
                             <circle class="bg" cx="60" cy="60" r="54" fill="none" stroke-width="10" />
                             <circle class="fg" cx="60" cy="60" r="54" fill="none" stroke="#fff"
                                 stroke-width="10" stroke-dasharray="339.29" stroke-dashoffset="339.29" />
                         </svg>
-                        <div class="center">
-                            <span id="v-emp">0</span>
-                            <small>EMP BORROW</small>
-                        </div>
+                        <div class="center"><span id="v-emp">0</span><small>EMP BORROW</small></div>
                     </div>
                     <div>
                         <div class="title">Employee (Borrow)</div>
@@ -304,18 +257,14 @@
                     </div>
                 </div>
 
-                {{-- PEMINJAMAN --}}
-                <div class="stat stat--pinj fadeUp" style="animation-delay:.16s">
+                <div class="stat stat--pinj">
                     <div class="ring">
-                        <svg viewBox="0 0 120 120" aria-hidden="true">
+                        <svg viewBox="0 0 120 120">
                             <circle class="bg" cx="60" cy="60" r="54" fill="none" stroke-width="10" />
                             <circle class="fg" cx="60" cy="60" r="54" fill="none" stroke="#fff"
                                 stroke-width="10" stroke-dasharray="339.29" stroke-dashoffset="339.29" />
                         </svg>
-                        <div class="center">
-                            <span id="v-pinj">0</span>
-                            <small>PEMINJAMAN</small>
-                        </div>
+                        <div class="center"><span id="v-pinj">0</span><small>PEMINJAMAN</small></div>
                     </div>
                     <div>
                         <div class="title">Peminjaman</div>
@@ -323,18 +272,14 @@
                     </div>
                 </div>
 
-                {{-- ITEM OUT --}}
-                <div class="stat stat--out fadeUp" style="animation-delay:.20s">
+                <div class="stat stat--out">
                     <div class="ring">
-                        <svg viewBox="0 0 120 120" aria-hidden="true">
+                        <svg viewBox="0 0 120 120">
                             <circle class="bg" cx="60" cy="60" r="54" fill="none" stroke-width="10" />
                             <circle class="fg" cx="60" cy="60" r="54" fill="none" stroke="#fff"
                                 stroke-width="10" stroke-dasharray="339.29" stroke-dashoffset="339.29" />
                         </svg>
-                        <div class="center">
-                            <span id="v-out">0</span>
-                            <small>ITEM OUT</small>
-                        </div>
+                        <div class="center"><span id="v-out">0</span><small>ITEM OUT</small></div>
                     </div>
                     <div>
                         <div class="title">Item (Out)</div>
@@ -343,11 +288,16 @@
                 </div>
             </div>
 
-            {{-- TABLE SECTION --}}
-            <div class="card-soft fadeUp" style="margin-top:18px; animation-delay:.26s">
-                <h6>Peminjaman Hari ini</h6>
+            {{-- TABLE (tanpa background) --}}
+            <div class="section">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+                    <h6 style="margin:0;color:#243552">Peminjaman Hari ini</h6>
+                    <div style="display:flex;gap:12px;flex-wrap:wrap;font-size:.86rem;color:#5a6e8e">
+                        <span>• Dept</span><span>• Not Return</span>
+                    </div>
+                </div>
                 <div class="table-wrap">
-                    <table class="tmodern">
+                    <table class="tclean">
                         <thead>
                             <tr>
                                 <th>SEW</th>
@@ -377,7 +327,7 @@
                                 <td id="put_print">0</td>
                                 <td id="put_iron">0</td>
                                 <td id="put_other">0</td>
-                                <td id="put_not_return">0</td>
+                                <td id="put_not_return" style="font-weight:800;color:#129e8f">0</td>
                             </tr>
                         </tbody>
                     </table>
@@ -388,27 +338,64 @@
     </div>
 
     <script>
-        // ===== Clock =====
-        function pad(n) {
-            return n < 10 ? '0' + n : n
+        // -------- Clock + extra info --------
+        const pad = n => n < 10 ? '0' + n : n;
+
+        function isoWeek(d) {
+            const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
+            const dayNum = date.getUTCDay() || 7;
+            date.setUTCDate(date.getUTCDate() + 4 - dayNum);
+            const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
+            return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
+        }
+
+        function dayOfYear(d) {
+            const start = new Date(d.getFullYear(), 0, 0);
+            return Math.floor((d - start) / 86400000);
+        }
+
+        function quarter(d) {
+            return Math.floor(d.getMonth() / 3) + 1;
+        }
+
+        function shiftNow(h) {
+            if (h >= 6 && h < 14) return 'Shift Pagi';
+            if (h >= 14 && h < 22) return 'Shift Sore';
+            return 'Shift Malam';
+        }
+
+        function greet(h) {
+            if (h < 11) return 'Selamat pagi';
+            if (h < 15) return 'Selamat siang';
+            if (h < 18) return 'Selamat sore';
+            return 'Selamat malam';
         }
 
         function tick() {
             const now = new Date();
+            const h = now.getHours();
             document.getElementById('timenow').textContent =
-                `${pad(now.getHours())}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
+                `${pad(h)}:${pad(now.getMinutes())}:${pad(now.getSeconds())}`;
             document.getElementById('datenow').textContent =
                 now.toLocaleDateString('id-ID', {
+                    weekday: 'long',
                     day: '2-digit',
-                    month: '2-digit',
+                    month: 'long',
                     year: 'numeric'
                 });
+
+            document.getElementById('chip-greet').textContent = `${greet(h)} 👋`;
+            document.getElementById('chip-week').textContent = `Week ${isoWeek(now)}`;
+            document.getElementById('chip-doy').textContent = `Day ${dayOfYear(now)}/365`;
+            document.getElementById('chip-qt').textContent = `Q${quarter(now)}`;
+            document.getElementById('chip-shift').textContent = shiftNow(h);
         }
         tick();
         setInterval(tick, 1000);
 
-        // ===== Count-up & Ring =====
-        const CIRC = 339.292; // 2πr (r=54)
+        // -------- Ring helpers --------
+        const CIRC = 339.292;
+
         function countUp(el, to) {
             const dur = 600,
                 start = performance.now(),
@@ -419,7 +406,7 @@
                     n = Math.floor(from + (to - from) * p);
                 el.textContent = n.toLocaleString('id-ID');
                 if (p < 1) requestAnimationFrame(step);
-                else el.dataset.from = to, el.classList.add('pulse'), setTimeout(() => el.classList.remove('pulse'), 300);
+                else el.dataset.from = to;
             }
             requestAnimationFrame(step);
         }
@@ -430,37 +417,32 @@
             fg.style.strokeDashoffset = offset.toFixed(2);
         }
 
-        // ===== Data fetchers =====
+        // -------- Data fetchers (tetap seperti punyamu) --------
         function fetchTotalPeminjaman() {
             $.ajax({
-                url: "{{ route('get.peminjaman_today') }}",
-                method: "GET"
-            }).done(function(res) {
-                const d = res?.data || {};
-                const vItem = Number(d.ITEM || 0),
-                    vEmp = Number(d.EMPLOYEE_BORROW || 0),
-                    vPinj = Number(d.PEMINJAMAN || 0),
-                    vOut = Number(d.ITEM_OUT || 0);
-                const total = Math.max(1, vItem + vEmp + vPinj + vOut);
-
-                countUp(document.getElementById('v-item'), vItem);
-                setShare(document.getElementById('v-item'), vItem / total);
-                countUp(document.getElementById('v-emp'), vEmp);
-                setShare(document.getElementById('v-emp'), vEmp / total);
-                countUp(document.getElementById('v-pinj'), vPinj);
-                setShare(document.getElementById('v-pinj'), vPinj / total);
-                countUp(document.getElementById('v-out'), vOut);
-                setShare(document.getElementById('v-out'), vOut / total);
-            }).fail(function(err) {
-                console.error('Err total:', err)
-            });
+                    url: "{{ route('get.peminjaman_today') }}",
+                    method: "GET"
+                })
+                .done(function(res) {
+                    const d = res?.data || {};
+                    const vItem = Number(d.ITEM || 0),
+                        vEmp = Number(d.EMPLOYEE_BORROW || 0),
+                        vPinj = Number(d.PEMINJAMAN || 0),
+                        vOut = Number(d.ITEM_OUT || 0);
+                    const total = Math.max(1, vItem + vEmp + vPinj + vOut);
+                    countUp(document.getElementById('v-item'), vItem);
+                    setShare(document.getElementById('v-item'), vItem / total);
+                    countUp(document.getElementById('v-emp'), vEmp);
+                    setShare(document.getElementById('v-emp'), vEmp / total);
+                    countUp(document.getElementById('v-pinj'), vPinj);
+                    setShare(document.getElementById('v-pinj'), vPinj / total);
+                    countUp(document.getElementById('v-out'), vOut);
+                    setShare(document.getElementById('v-out'), vOut / total);
+                });
         }
 
         function fetchcountdepartment() {
-            $.ajax({
-                url: "/get/peminjaman_department",
-                method: "GET"
-            }).done(function(r) {
+            $.get("/get/peminjaman_department", function(r) {
                 if (!r?.success) return;
                 const d = r.data || {};
                 $('#put_sewing').text(d.SEW || 0);
@@ -475,15 +457,11 @@
                 $('#put_iron').text(d.IRON || 0);
                 $('#put_other').text(d.OTHER || 0);
                 $('#put_not_return').text(d.NOT_RETURN || 0);
-            }).fail(function(err) {
-                console.error('Err dept:', err)
             });
         }
-
         $(function() {
             fetchTotalPeminjaman();
             fetchcountdepartment();
-            // refresh berkala
             setInterval(fetchTotalPeminjaman, 30000);
             setInterval(fetchcountdepartment, 60000);
         });
