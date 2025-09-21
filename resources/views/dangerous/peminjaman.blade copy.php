@@ -1,359 +1,138 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5" />
-    <meta name="author" content="needle" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Responsive HTML Admin Dashboard Template based on Bootstrap 5">
+    <meta name="author" content="needle">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="keywords"
-        content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web" />
+        content="nobleui, bootstrap, bootstrap 5, bootstrap5, admin, dashboard, template, responsive, css, sass, html, theme, front-end, ui kit, web">
 
     <title>E - DANGEROUS</title>
 
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap"
-        rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
     <!-- End fonts -->
 
-    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/core/core.css') }}" />
-    <link rel="stylesheet" href="{{ asset('backend/assets/fonts/feather-font/css/iconfont.css') }}" />
-    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/sweetalert2/sweetalert2.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/core/core.css') }}">
+
+    <link rel="stylesheet" href="{{ asset('backend/assets/fonts/feather-font/css/iconfont.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/vendors/sweetalert2/sweetalert2.min.css') }}">
 
     <!-- Layout styles -->
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/demo1/style.css') }}" />
-    <link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}" />
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/demo1/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('backend/assets/css/custom.css') }}">
     <!-- End layout styles -->
 
-    <link rel="stylesheet" href="{{ asset('css/toastr.css') }}" />
+    <link rel="stylesheet" href="{{ asset('css/toastr.css') }}">
+
+    {{-- <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.png') }}" /> --}}
 
     <!-- javascript -->
+
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/sweetalert2/sweetalert2.min.js') }}"></script>
     <script src="{{ asset('js/pusher.min.js') }}"></script>
 
     <style>
-        :root {
-            /* Harmonious dual-tone: emerald ↔ violet */
-            --bg-1: #0b0f1a;
-            --bg-2: #0f172a;
-            --ink: #f4f7ff;
-            --muted: #a9b6ce;
-            --brand-1: #00e3a5;
-            /* emerald */
-            --brand-2: #7c3aed;
-            /* violet */
-            --warn: #ffe600;
-            --danger: #ff3b3b;
-            --card: rgba(255, 255, 255, 0.06);
-            --glass: rgba(255, 255, 255, 0.08);
-            --border: rgba(255, 255, 255, 0.12);
-            --shadow-1: 0 20px 60px rgba(0, 0, 0, 0.45);
-        }
-
-        /* ======= GLOBAL BACKGROUND ======= */
-        body.bg-black {
-            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans', 'Apple Color Emoji', 'Segoe UI Emoji';
-            color: var(--ink);
-            background: radial-gradient(1200px 600px at -10% -20%, rgba(124, 58, 237, .25), transparent 60%),
-                radial-gradient(1000px 500px at 110% 120%, rgba(0, 227, 165, .20), transparent 60%),
-                linear-gradient(135deg, var(--bg-1), var(--bg-2));
-            background-size: 200% 200%;
-            animation: gradientMove 18s ease-in-out infinite;
-        }
-
-        @keyframes gradientMove {
-            0% {
-                background-position: 0% 50%;
-            }
-
-            50% {
-                background-position: 100% 50%;
-            }
-
-            100% {
-                background-position: 0% 50%;
-            }
-        }
-
-        /* ======= HERO TIME AREA ======= */
-        .area-datetime {
-            margin-top: 0;
-            padding: 0;
-            width: 100%;
-            height: 180px;
-            position: relative;
-            border-radius: 22px;
-            background: linear-gradient(180deg, rgba(15, 23, 42, .75), rgba(15, 23, 42, .35));
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-1);
-            overflow: hidden;
-            backdrop-filter: blur(8px);
-            isolation: isolate;
-        }
-
-        /* animated beam */
-        .area-datetime::after {
-            content: "";
-            position: absolute;
-            inset: -40%;
-            background: conic-gradient(from 210deg, transparent 0 70%, rgba(124, 58, 237, .2) 72%, rgba(0, 227, 165, .2) 78%, transparent 82%);
-            animation: sweep 10s linear infinite;
-            z-index: -1;
-            filter: blur(6px);
-        }
-
-        @keyframes sweep {
-            to {
-                transform: rotate(1turn);
-            }
-        }
-
-        .menu-now {
-            font-size: 12px;
-            font-weight: 800;
-            color: var(--muted);
-            text-align: center;
-            letter-spacing: 8px;
-            margin-top: 12px;
-            text-transform: uppercase;
-            opacity: .9;
-        }
-
+        /* style jam digital */
         .time-now {
-            font-size: clamp(28px, 4vw, 60px);
-            font-weight: 900;
-            line-height: 1.1;
+            font-size: 60px;
+            font-weight: bold;
             text-align: center;
-            color: var(--warn);
-            letter-spacing: 2px;
-            text-shadow: 0 8px 40px rgba(255, 230, 0, .25);
-            margin-top: 4px;
-            animation: floatY 6s ease-in-out infinite;
-        }
-
-        @keyframes floatY {
-
-            0%,
-            100% {
-                transform: translateY(0);
-            }
-
-            50% {
-                transform: translateY(-6px);
-            }
+            color: rgb(255, 230, 0);
+            padding: 0px 0px 0px 0px;
         }
 
         .date-now {
-            font-size: clamp(16px, 2.5vw, 30px);
-            font-weight: 700;
-            color: #c7d2fe;
+            font-size: 30px;
+            font-weight: 600;
+            color: rgb(197, 197, 197);
             text-align: center;
-            opacity: .9;
-            letter-spacing: 1px;
-            margin-top: 2px;
+            padding: 0px 0px 0px 0px;
+        }
+
+        .menu-now {
+            font-size: 10px;
+            font-weight: 600;
+            color: rgb(197, 197, 197);
+            text-align: center;
+            padding: 0px 0px 0px 0px;
         }
 
         .pinjam-now {
-            font-size: clamp(18px, 2.5vw, 30px);
-            font-weight: 700;
-            color: var(--muted);
+            font-size: 30px;
+            font-weight: 600;
+            color: rgb(197, 197, 197);
             text-align: center;
-            margin-top: 6px;
+            padding: 0px 0px 0px 0px;
         }
 
-        /* ======= INPUT AREA ======= */
-        .area-input {
-            margin-top: 8px;
+        .area-datetime {
+            margin-top: 0px;
+            padding: 0px;
             width: 100%;
-            height: auto;
+            height: 150px;
+            background-color: black;
+        }
+
+        .area-input {
+            margin-top: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 130px;
         }
 
         .card {
-            /* keep Bootstrap card but modernized */
-            background: var(--card) !important;
-            border: 1px solid var(--border);
-            border-radius: 18px;
-            box-shadow: var(--shadow-1);
-            overflow: hidden;
-            transition: transform .3s ease, box-shadow .3s ease, border-color .3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            border-color: rgba(124, 58, 237, .45);
-            box-shadow: 0 22px 60px rgba(124, 58, 237, .25);
+            background-color: black;
         }
 
         .card-title {
             text-align: center;
-            font-weight: 700;
-            color: var(--muted);
+            font-weight: 600;
+            color: rgb(197, 197, 197);
         }
 
         .txt-count {
-            font-weight: 900;
+            font-weight: bold;
             text-align: center;
-            color: var(--warn);
+            color: rgb(255, 230, 0);
         }
 
         .txt-counts {
-            font-weight: 900;
-            font-size: clamp(22px, 4.2vw, 50px);
+            font-weight: bold;
+            font-size: 50px;
             text-align: center;
-            color: var(--danger);
-            text-shadow: 0 10px 40px rgba(255, 59, 59, .3);
-            letter-spacing: .5px;
-            margin-bottom: 8px;
-        }
-
-        /* Inputs */
-        #nik,
-        #sku,
-        #employee_id,
-        #item_id,
-        #remark {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            color: var(--ink);
-            height: 56px;
-            border-radius: 16px;
-            text-align: center;
-            font-weight: 700;
-            letter-spacing: 2px;
-            transition: box-shadow .2s ease, transform .15s ease, border-color .2s ease;
-        }
-
-        #nik::placeholder,
-        #sku::placeholder {
-            color: #94a3b8;
-            letter-spacing: 0;
-            font-weight: 500;
-        }
-
-        #nik:focus,
-        #sku:focus {
-            outline: none !important;
-            border-color: rgba(0, 227, 165, .55);
-            box-shadow: 0 0 0 6px rgba(0, 227, 165, .15);
-            transform: translateY(-1px);
+            color: rgb(255, 17, 17);
         }
 
         .hidden-input {
             display: none;
         }
-
-        /* ======= TABLE (Glass look) ======= */
-        .table-pinjam .table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            background: rgba(15, 23, 42, .35);
-            color: var(--ink);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: var(--shadow-1);
-        }
-
-        .table-pinjam thead th {
-            background: linear-gradient(90deg, rgba(124, 58, 237, .2), rgba(0, 227, 165, .15));
-            color: #e5e7eb;
-            font-weight: 700;
-            letter-spacing: .4px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .table-pinjam tbody tr {
-            transition: background .2s ease, transform .1s ease;
-        }
-
-        .table-pinjam tbody tr:hover {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        .table-pinjam td,
-        .table-pinjam th {
-            vertical-align: middle;
-        }
-
-        /* Badges */
-        .badge {
-            border-radius: 999px;
-            padding: .4rem .7rem;
-            font-weight: 700;
-            letter-spacing: .3px;
-        }
-
-        /* Subtle helper */
-        .tap-hint {
-            position: absolute;
-            right: 12px;
-            bottom: 10px;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 10px;
-            font-size: 12px;
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid var(--border);
-            color: var(--muted);
-            border-radius: 999px;
-            backdrop-filter: blur(4px);
-            animation: hintBlink 2.6s ease-in-out infinite;
-        }
-
-        @keyframes hintBlink {
-
-            0%,
-            100% {
-                opacity: .65;
-            }
-
-            50% {
-                opacity: 1;
-            }
-        }
-
-        /* Page padding tweak */
-        .page-wrapper {
-            padding-top: 8px;
-        }
-
-        .p-1 {
-            padding: .75rem !important;
-        }
-
-        /* Use emerald/violet borders on inputs container */
-        .px-6 {
-            padding-left: 2rem !important;
-            padding-right: 2rem !important;
-        }
-
-        .py-2 {
-            padding-top: .75rem !important;
-            padding-bottom: .75rem !important;
-        }
     </style>
+
 </head>
 
 <body class="bg-black" id="content-scan" onclick="openFullscreen();">
+
     <div class="p-1">
+
         <!-- partial -->
         <div class="page-wrapper">
             <div class="">
                 <div class="row">
                     <div class="col-12 col-xl-12 stretch-card">
-                        <div class="area-datetime align-items-center">
+                        <div class="area-datetime  align-items-center">
                             <div class="menu-now">PEMINJAMAN</div>
                             <div class="time-now" id="timenow"></div>
                             <div class="date-now" id="datenow"></div>
-                            <div class="tap-hint"><i data-feather="maximize-2" style="width:14px;height:14px"></i>
-                                Fullscreen</div>
+
                         </div>
                     </div>
                 </div>
@@ -367,26 +146,37 @@
                         <div class="row">
                             <div class="col-6">
                                 <p class="txt-counts" id="txt-name">-</p>
+
                                 <input type="text" class="form-control hidden-input" id="remark" name="remark">
+
                                 <input type="text" class="form-control" id="nik" name="nik"
-                                    placeholder="NIK" autofocus required />
+                                    placeholder="NIK" autofocus required>
+
                                 <input type="text" class="form-control hidden-input" id="employee_id"
-                                    name="employee_id" required />
+                                    name="employee_id" required>
+
                             </div>
 
                             <div class="col-6">
                                 <p class="txt-counts" id="txt-name-item">-</p>
+
                                 <input type="text" class="form-control" id="sku" name="sku"
-                                    placeholder="SKU" autofocus required />
+                                    placeholder="SKU" autofocus required>
+
                                 <input type="text" class="form-control hidden-input" id="item_id" name="item_id"
-                                    required />
+                                    required>
+
                             </div>
+
                         </div>
+
                     </form>
+
                 </div>
 
                 <div class="row py-2 px-6 table-pinjam">
-                    <table id="dataTableExamplex" class="table">
+
+                    <table id="dataTableExamplex" class="table bg-white">
                         <thead>
                             <tr>
                                 <th>NO</th>
@@ -400,55 +190,76 @@
                                 <th>REMARK</th>
                             </tr>
                         </thead>
-                        <tbody id="transaction-table-body"></tbody>
+                        <tbody id="transaction-table-body">
+
+                        </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
+
     </div>
 
-    {{-- Original Scripts (LOGIC UNCHANGED) --}}
+    {{-- <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script> --}}
+    {{-- <script src="https://js.pusher.com/7.0/pusher.min.js"></script> --}}
+
     <script type="text/javascript">
         $(document).ready(function() {
+
+
+
             $('#remark').val('PINJAM');
             fetchTransactions();
             fetchTotalPeminjaman();
+
             clear_input();
+
             $("#sku").prop('disabled', true);
 
+
             $("#nik").on('keyup', function(e) {
+
                 if (e.keyCode === 13) {
+
                     var nik = $(this).val();
+
                     $.ajax({
                         url: "{{ route('check.employee') }}",
                         method: "POST",
                         data: {
                             nik: nik,
-                            _token: '{{ csrf_token() }}'
+                            _token: '{{ csrf_token() }}' // Sertakan token CSRF
                         },
                         success: function(response) {
                             if (response.id) {
                                 $("#employee_id").val(response.id);
                                 var truncatedName = response.name.substring(0, 15);
                                 $("#txt-name").html(truncatedName);
-                                $('#sku').prop('disabled', false);
+                                $('#sku').prop('disabled', false); // Enable SKU field
                                 $('#sku').focus();
+
+
                             } else {
                                 const Toast = Swal.mixin({
+
                                     showConfirmButton: false,
                                     timer: 1000,
                                     timerProgressBar: true,
                                 });
+
                                 Toast.fire({
                                     icon: 'error',
                                     title: 'NIK tidak ditemukan!'
                                 })
+
                                 $('#nik').val('');
                                 $('#sku').val('');
                                 $('#txt-name').html('-');
-                                $('#sku').prop('disabled', true);
+                                $('#sku').prop('disabled', true); // Keep SKU field disabled
                             }
                         }
+
                     });
                 }
             });
@@ -457,7 +268,7 @@
                 if (e.keyCode === 13) {
                     var sku = $(this).val();
                     $.ajax({
-                        url: "{{ route('check.item') }}",
+                        url: "{{ route('check.item') }}", // URL endpoint to check SKU
                         method: "POST",
                         data: {
                             sku: sku,
@@ -468,18 +279,23 @@
                                 $("#item_id").val(response.id);
                                 var truncatedItemName = response.name.substring(0, 15);
                                 $("#txt-name-item").html(truncatedItemName);
+
+
                                 saveTransaction();
                                 clear_input();
                             } else {
                                 const Toast = Swal.mixin({
+
                                     showConfirmButton: false,
                                     timer: 1000,
                                     timerProgressBar: true,
                                 });
+
                                 Toast.fire({
                                     icon: 'error',
                                     title: 'SKU tidak ditemukan!'
                                 })
+
                                 $('#sku').val('');
                                 $('#txt-name-item').text('-');
                             }
@@ -487,6 +303,10 @@
                     });
                 }
             });
+
+
+
+
         });
 
         function clear_input() {
@@ -495,13 +315,18 @@
             $('#sku').val('');
             $('#txt-name').text('-');
             $('#txt-name-item').text('-');
-            $('#sku').prop('disabled', true);
+            $('#sku').prop('disabled', true); // Disable SKU field
+
         }
 
+
+
         function saveTransaction() {
+
             var employee_id = $("#employee_id").val();
             var item_id = $("#item_id").val();
             var remark = $("#remark").val();
+
             $.ajax({
                 url: "{{ route('store.peminjaman') }}",
                 method: "POST",
@@ -516,29 +341,42 @@
                         Swal.fire({
                             icon: 'success',
                             title: 'Transaksi berhasil disimpan!',
+
                             showConfirmButton: false,
                             timer: 1000,
                             timerProgressBar: true,
                         });
+
+                        // Perbarui jumlah IN
+
                         fetchTransactions();
+
                         clear_input();
                         $('#nik').focus();
+
                     } else {
                         Swal.fire({
                             icon: 'error',
                             title: 'Sudah Dipinjam!',
+
                             showConfirmButton: false,
                             timer: 1000,
                             timerProgressBar: true,
                         });
+
                         clear_input();
                         $('#nik').focus();
+
+
+
+
                     }
                 },
                 error: function(xhr, status, error) {
                     Swal.fire({
                         icon: 'error',
                         title: 'Terjadi kesalahan!',
+
                         showConfirmButton: false,
                         timer: 1000,
                         timerProgressBar: true,
@@ -560,6 +398,7 @@
             });
         }
 
+
         function formatDateTime(dateTimeString) {
             const date = new Date(dateTimeString);
             const options = {
@@ -569,6 +408,8 @@
                 '.000000Z', '');
         }
 
+
+
         function fetchTransactions() {
             $.ajax({
                 url: "{{ route('get.peminjamanlimit') }}",
@@ -577,21 +418,31 @@
                     var tbody = $('#transaction-table-body');
                     tbody.empty();
                     response.forEach(function(transaction, index) {
+
                         const createdAt = formatDateTime(transaction.created_at);
                         const updatedAt = transaction.updated_at !== transaction.created_at ?
                             formatDateTime(transaction.updated_at) : '';
+
+
                         var row = `
-              <tr>
-                <td>${index + 1}</td>
-                <td>${transaction.no_trx_out}</td>
-                <td>${createdAt}</td>
-                <td>${transaction.employee.nik}</td>
-                <td>${transaction.employee.name}</td>
-                <td>${transaction.employee.department}</td>
-                <td>${transaction.item.code}</td>
-                <td>${transaction.item.name}</td>
-                <td>${transaction.remark ? (transaction.remark === 'KEMBALI' ? `<span class="badge bg-success">${transaction.remark}</span>` : `<span class="badge bg-danger">${transaction.remark}</span>`) : ''}</td>
-              </tr>`;
+                                <tr>
+                                    <td>${index + 1}</td>
+                                    <td>${transaction.no_trx_out}</td>
+                                    <td>${createdAt}</td>
+                                    <td>${transaction.employee.nik}</td>
+                                    <td>${transaction.employee.name}</td>
+                                    <td>${transaction.employee.department}</td>
+                                    <td>${transaction.item.code}</td>
+                                    <td>${transaction.item.name}</td>
+                                    <td>
+                                        ${transaction.remark 
+                                            ? (transaction.remark === 'KEMBALI' 
+                                                ? `<span class="badge bg-success">${transaction.remark}</span>` 
+                                                : `<span class="badge bg-danger">${transaction.remark}</span>`)
+                                            : ''}
+                                    </td>
+                                </tr>
+                            `;
                         tbody.append(row);
                     });
                 },
@@ -605,50 +456,64 @@
                     });
                 }
             });
+
         }
+
+
 
         function openFullscreen() {
             var elem = document.documentElement;
             if (elem.requestFullscreen) {
                 elem.requestFullscreen();
             } else if (elem.webkitRequestFullscreen) {
+                /* Safari */
                 elem.webkitRequestFullscreen();
             } else if (elem.msRequestFullscreen) {
+                /* IE11 */
                 elem.msRequestFullscreen();
             }
+
             $("#nik").focus();
         }
 
-        // Clock (IDs unchanged)
+
+
+
+
+
+        //intital tanggal dan waktu dari id
         var dateDisplay = document.getElementById("datenow");
         var timeDisplay = document.getElementById("timenow");
-
+        //fungsi
         function refreshTime() {
             var dateString = new Date().toLocaleString("id-ID", {
                 imeZone: "Asia/Jakarta"
-            }); // keep original prop
+            }); //gettime
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() + 1;
             var yyyy = today.getFullYear();
-            if (dd < 10) dd = '0' + dd;
-            if (mm < 10) mm = '0' + mm;
+            if (dd < 10) {
+                dd = '0' + dd;
+            }
+            if (mm < 10) {
+                mm = '0' + mm;
+            }
             var todayy = dd + '/' + mm + '/' + yyyy;
             var formattedString = dateString.replace(",", "-");
-            dateDisplay.innerHTML = todayy;
+            dateDisplay.innerHTML = todayy; // date 
+
             var splitarray = new Array();
             splitarray = formattedString.split(" ");
             var splitarraytime = new Array();
             splitarraytime = splitarray[1].split(".");
-            timeDisplay.innerHTML = splitarraytime[0] + ':' + splitarraytime[1] + ':' + splitarraytime[2];
+            timeDisplay.innerHTML = splitarraytime[0] + ':' + splitarraytime[1] + ':' +
+                splitarraytime[2]; // time 
         }
+        //panggil ulang otomatis fungsi 
         setInterval(refreshTime, 1000);
     </script>
 
-    <script src="{{ asset('backend/assets/vendors/feather-icons/feather.min.js') }}"></script>
-    <script>
-        if (window.feather) window.feather.replace();
-    </script>
 </body>
 
 </html>
